@@ -1,0 +1,17 @@
+samba添加用户：
+
+smbpasswd -a 用户名
+
+
+samba删除用户：
+
+smbpasswd -x 用户名
+
+
+windows切换用户重新连接samba的方法
+
+打开cmd命令行，输入下面的命令
+
+net use \\sambaserver /delete
+
+执行完成之后，重新使用\\sambaserver连接samba服务器，并输入新用户的用户名和密码

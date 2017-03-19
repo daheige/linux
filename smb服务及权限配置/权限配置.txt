@@ -1,0 +1,74 @@
+首先要保证你的samba安装并配置好，关于安装和配置samba请参考此文章http://blog.csdn.net/linglongwunv/archive/2010/01/19/5212875.aspx，在这篇文章里对于samba共享的目录为所有用户开放了全部的权限，现在由于公司需求改变要进行修改。
+需求1：有一个共享目录为rule，里面放公司的规章制度，所有用户都可以查看，但是不能修改
+解决方法：在smb.conf里配置read only = yes，具体示例如下：
+[rule]
+path = /var/samba/rule
+read only = yes
+public    = no
+vaild users = theworld
+
+需求2：一部分人只对file1这个目录有权限，一部分人只对file2这个目录有权限
+解决方法：
+1、首先建立两个samba用户user1和user2，这两个用户要保证是在Linux系统中存在的用户，命令如下：
+#smbpasswd -a user1
+2、然后对目录file1和file2设置访问权限，让用户user1访问file1，用户user2访问file2，命令如下：
+#chown user1:user1 /var/samba/file1
+#chmod 700 /var/samba/file1
+3、在smb.conf中配置file1和file2的访问权限，示例如下：
+[file1]
+path = /var/samba/file1
+read only = no
+public    = no
+vaild users = user1
+4、在客户端登录samba服务的时候分配给访问file1的用户user1的用户名，访问file2的用户user2的用户名。
+
+需求3：只有user1组里的人对file1这个目录有权限，并且user1组中用户a有读写权限，而用户b只有读权限
+解决方法：
+1、首先建立两个samba用户a和b，这两个用户要保证是在linux系统中存在的用户，并且在同一个用户组user1中，创建方法同上
+2、然后对目录file1设置访问权限，让用户组user1可以访问file1，命令如下：
+#chown user1.user1 /var/samba/file1
+#chmod 770 /var/samba/file1
+3、在smb.conf中配置file1的访问权限，示例如下：
+[file1]
+path = /var/samba/file1
+public    = no
+vaild users = @user1
+write list = a
+read list = b   
+
+需求3：只有user1组里的人对file1这个目录有权限，并且user1组中所有用户都有读写权限，这里值得注意的是当权限设置好后新建文件夹及文件的权限会与之前不同导致同组用户只有读权限没有写权限，所以要在配置文件中指定新建文件及文件夹的权限
+解决方法：
+1、首先建立所需的samba用户若干，这些用户要保证是在linux系统中存在的用户，并且在同一个用户组user1中，创建方法同上
+2、然后对目录file1设置访问权限，让用户组user1可以访问file1，命令如下：
+#chown user1.user1 /var/samba/file1
+#chmod 770 /var/samba/file1
+3、在smb.conf中配置file1的访问权限，示例如下：
+[file1]
+path = /var/samba/file1
+read only = no
+public    = no
+create mode = 0770
+directory mode = 0770
+vaild users = @user1
+write list = @theworld
+
+
+权限配置demo
+;我让/home/projects给smb用户有权限访问
+[projects]
+       comment = workgroup
+       path = /home/projects
+       public = yes
+       writable = yes
+       browseable = yes
+       hosts allow =127. 192.168.1.
+;让zhuwei这个组的用户有权限访问/home/wwwroots目录
+[workgroup]
+       comment = workgroup
+       path = /home/wwwroots
+       public = yes
+       writable = yes
+       browseable = yes
+       hosts allow =127. 192.168.1.
+       vaild users = @zhuwei
+

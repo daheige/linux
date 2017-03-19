@@ -1,0 +1,29 @@
+配置完一台服务器后，并不是就可以高枕无忧了，前不久刚刚爆发的PHP 5.3.9版本的漏洞也搞得人心惶惶，所以说经常关注安全公告并及时升级服务器也是必要的。一般来说，黑客攻击服务器的首要步骤就是收集信息，比如说你的软件版本，这些将成为下一步有针对性攻击的依据。所以说一定程度的隐藏这些信息就显得非常有必要了，本文将简单介绍如何在网络上隐藏Nginx版本号以及PHP的版本号。
+
+1.隐藏Nginx版本号，Nginx的版本号主要在两个地方会有，一个是HTTP header，有个Server:nginx/1.x.x类似会暴露Web服务器所用软件名称以及版本号，这个也是大多数Web服务器最容易暴露版本号的地方，第二个地方是Nginx出错页面，比如404页面没有找到等，这是如果用户没有指定页面的话，那么Nginx自己的页面会有版本戳记。
+
+不过幸运的是对于这两个地方的版本号隐藏，Nginx都提供了简单的办法一步到位，参考server_tokens。通过在配置文件的http节配置server_tokens off来达到我们目的。
+
+ 
+
+  http {
+    # ...省略一些配置
+    server_tokens off;
+  }
+最后别忘了使用命令nginx -s reload刷新当前配置。完成后你可以查看所有页面的响应头或者错误页，看看是不是只看到nginx字样而看不到版本号？什么？你想连nginx也改掉？呵呵，这个恐怕就麻烦了，需要改动Nginx源代码然后重新编译，感兴趣的童鞋可以参考《Linux/VPS环境下Nginx安全配置小记(1)》。
+
+2.隐藏PHP的版本号，PHP容易暴露的版本号在什么地方呢？其实也是在HTTP头，以类似X-Powered-By: PHP/5.2.11这种形式存在，大家可能会想到会不会是Nginx问题，而去到Nginx里面找相关配置，呵呵，其实这个是在PHP的配置文件php.ini里改动，打开php.ini，找到下面叙述：
+
+;;;;;;;;;;;;;;;;;
+; Miscellaneous ;
+;;;;;;;;;;;;;;;;;
+ 
+; Decides whether PHP may expose the fact that it is installed on the server
+; (e.g. by adding its signature to the Web server header).  It is no security
+; threat in any way, but it makes it possible to determine whether you use PHP
+; on your server or not.
+; http://php.net/expose-php
+expose_php = On
+将expose_php = On改为expose_php = Off就搞定了，当然，对于Apache服务器还有另外一个方法可以直接尝试在.htaccess文件中Header unset X-Powered-By，删除X-Powered-By节，不过我还是建议改动php.ini的expose_php。
+
+

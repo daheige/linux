@@ -1,0 +1,76 @@
+php5.6以上的版本请用http://pecl.php.net/get/mongo-1.6.14.tgz
+
+以下操作都是root操作方式下进行
+1、下载
+cd /usr/local/
+wget http://pecl.php.net/get/mongo-1.6.14.tgz
+2、解压
+tar zxvf mongo-1.6.14.tgz
+
+3、配置安装
+查看php-config的位置 whereis php-config
+[root@daheige local]# whereis php-config
+php-config: /usr/bin/php-config
+[root@daheige local]#
+
+查看phpize位置 whereis phpize
+phpize: /usr/bin/phpize
+
+cd /usr/local/mongo-1.6.14
+执行 phpize形成mongo拓展
+
+[root@daheige mongo-1.6.14]# phpize 
+Configuring for:
+PHP Api Version:         20131106
+Zend Module Api No:      20131226
+Zend Extension Api No:   220131226
+
+接下来配置安装拓展的位置
+[root@daheige mongo-1.6.14]# ./configure --with-php-config=/usr/bin/php-config
+
+configure: creating ./config.status
+config.status: creating config.h
+[root@daheige mongo-1.6.14]#
+
+编辑并安装
+make && make install
+
+安装成功会提示
+Build complete.
+Don't forget to run 'make test'.
+
+Installing shared extensions:     /usr/local/php/lib/php/extensions/no-debug-non-zts-20131226/
+
+
+配置php.ini
+为了更好的配置php.ini  我做了一个映射
+[root@daheige mongo-1.6.14]# ln -s /usr/local/php/etc/php.ini /etc/php.ini
+加入
+extension=mongo.so
+
+重启服务器
+[root@daheige no-debug-non-zts-20131226]# service php-fpm restart
+Gracefully shutting down php-fpm . done
+Starting php-fpm  done
+[root@daheige no-debug-non-zts-20131226]# service nginx restart
+停止 nginx：                                               [确定]
+正在启动 nginx：                                           [确定]
+
+
+访问
+编辑p.php
+输入 
+<?php
+phpinfo();
+运行，查看 mongo
+到这里成功安装php-mongo
+
+
+
+
+
+
+
+
+
+

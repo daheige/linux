@@ -1,0 +1,166 @@
+今天在一台PC上安装了CentOS 7，当时选择了最小安装模式，安装完成后马上用ifconfig查看本机的ip地址（局域网已经有DHCP），发现报错,提示ifconfig命令没找到。
+
+[root@centos1 ~]# ifconfig
+
+-bash: ifconfig: command not found
+
+首先，习惯性的输入echo $PATH(查看当前PATH环境变量，跟DOS的path命令一样的功能，注意Linux系统中的命令是区分大小写的)，显示结果如下：
+
+[root@centos1 ~]# echo $PATH
+
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin
+
+从上面显示结果看，放置系统管理程序的路径/usr/sbin已存在，就是放外部命令的路径。直接用ls查看/usr/sbin/目录，也没看到ifconfig，怎么回事？
+
+[root@centos1 ~]# ls /usr/sbin/
+
+我还是不死心，再用find命令也没找到ifconfig?
+
+[root@centos1 ~]# find / -name "ifconfig"
+
+此时心里有底了，应该是用某个命令代替了ifconfig了。上百度一查，果不其然，已经用ip命令代替ifconfig命令了。下面列出ip命令常用参数。
+
+ip  [选项]  操作对象{link|addr|route...}
+
+# ip link show                # 显示网络接口信息
+# ip link set eth0 upi           # 开启网卡
+# ip link set eth0 down          # 关闭网卡
+# ip link set eth0 promisc on      # 开启网卡的混合模式
+# ip link set eth0 promisc offi     # 关闭网卡的混个模式
+# ip link set eth0 txqueuelen 1200   # 设置网卡队列长度
+# ip link set eth0 mtu 1400        # 设置网卡最大传输单元
+# ip addr show                # 显示网卡IP信息
+# ip addr add 192.168.0.1/24 dev eth0 # 设置eth0网卡IP地址192.168.0.1
+# ip addr del 192.168.0.1/24 dev eth0 # 删除eth0网卡IP地址
+
+# ip route list                 # 查看路由信息
+# ip route add 192.168.4.0/24  via  192.168.0.254 dev eth0 # 设置192.168.4.0网段的网关为192.168.0.254,数据走eth0接口
+# ip route add default via  192.168.0.254  dev eth0    # 设置默认网关为192.168.0.254
+# ip route del 192.168.4.0/24      # 删除192.168.4.0网段的网关
+# ip route del default          # 删除默认路由
+
+输入ip addr命令后，发现enp2s0网卡（这个enp2s0是我这里的网卡）没有ip地址。
+
+[root@centos1 ~]# ip addr
+
+既然没有ip地址，那直接去/etc/sysconfig/network-scripts目录中看一下的网卡ip信息的配置文件名吧。
+
+[root@centos1 ~]# ls /etc/sysconfig/network-scripts/
+ifcfg-enp2s0  ifdown-eth   ifdown-post    ifdown-Team      ifup-aliases  ifup-ipv6   ifup-post    ifup-Team      init.ipv6-global
+ifcfg-lo      ifdown-ippp  ifdown-ppp     ifdown-TeamPort  ifup-bnep     ifup-isdn   ifup-ppp     ifup-TeamPort  network-functions
+ifdown        ifdown-ipv6  ifdown-routes  ifdown-tunnel    ifup-eth      ifup-plip   ifup-routes  ifup-tunnel    network-functions-ipv6
+ifdown-bnep   ifdown-isdn  ifdown-sit     ifup             ifup-ippp     ifup-plusb  ifup-sit     ifup-wireless
+
+从结果看，之前保存网卡ip信息的配置文件名也由以前的ifcfg-eth0变成了ifcfg-enp2s0，好吧，既然你给他命这么个名，那我就先用着。先cat一下ifcfg-enp2s0
+[root@centos1 ~]# cat /etc/sysconfig/network-scripts/ifcfg-enp2s0
+HWADDR=00:E0:69:01:6A:96
+TYPE=Ethernet
+BOOTPROTO=dhcp
+DEFROUTE=yes
+PEERDNS=yes
+PEERROUTES=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_PEERDNS=yes
+IPV6_PEERROUTES=yes
+IPV6_FAILURE_FATAL=no
+NAME=enp2s0
+UUID=5b0a7d76-1602-4e19-aee6-29f57618ca01
+ONBOOT=no
+
+从上面的配置中有看到虽然BOOTPROTO=dhcp，但是ONBOOT=no，这里用vi将ONBOOT=no改成ONBOOT=yes，然后重启CentOS。
+
+[root@centos1 ~]# shutdown -r
+
+重启完成后输入帐号和密码进入命令提示操作符继续用ip addr查看网卡信息。结果如下：
+[root@centos1 ~]# ip add
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: enp2s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000
+    link/ether 00:e0:69:01:6a:96 brd ff:ff:ff:ff:ff:ff
+    inet 172.8.1.200/24 brd 172.8.1.255 scope global enp2s0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::2e0:69ff:fe01:6a96/64 scope link
+       valid_lft forever preferred_lft forever
+
+从上面结果看到，通过DHCP分配到的ip地址是172.8.1.200，虽然是测试机，但为了便于今后的远程连接，我们还是给这台机配置一个固定ip吧。
+
+用vi打开ifcfg-enp2s0，输入以下参数，再用#将BOOTPROTO=dhcp注释。
+IPADDR0=172.8.1.211
+PREFIX0=24
+GATEWAY0=172.8.1.1
+DNS1=172.8.1.1
+
+完整参数如下，好了，网络配通了。明天继续其它功能测试。
+[root@centos1 ~]# cat /etc/sysconfig/network-scripts/ifcfg-enp2s0
+HWADDR=00:E0:69:01:6A:96
+TYPE=Ethernet
+#BOOTPROTO=dhcp
+DEFROUTE=yes
+PEERDNS=yes
+PEERROUTES=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_PEERDNS=yes
+IPV6_PEERROUTES=yes
+IPV6_FAILURE_FATAL=no
+NAME=enp2s0
+UUID=5b0a7d76-1602-4e19-aee6-29f57618ca01
+ONBOOT=yes
+IPADDR0=172.8.1.211
+PREFIX0=24
+GATEWAY0=172.8.1.1
+DNS1=172.8.1.1
+
+当联上互联网后，我们可以用yum install net-tools安装net-tools组件，将ifconfig命令找回来。有了互联网一切都好办了。
+
+[root@centos1 ~]#yum install net-tools
+
+=======================================
+linux下启动和关闭网卡命令
+
+ linux命令1: ifup、ifdown：
+
+实时地手动修改一些网络接口参数，可以利用ifconfig来实现，如果是要直接以配置文件，亦即是在 /etc/sysconfig/network-scripts里面的ifcfg-ethx等文件的设置参数来启动的话，那就得要通过ifdown或ifup来实现了。 　　
+[root@linux ~]# ifup {interface}
+[root@linux ~]# ifdown {interface}
+[root@linux ~]# ifup eth0
+ifup与ifdown真是太简单了。这两个程序其实是script而已，它会直接到 /etc/ sysconfig/network-scripts目录下搜索对应的配置文件，例如ifup eth0，它会找出ifcfg-eth0这个文件的内容，然后加以设置。关于ifcfg-eth0的设置请参考前一章连上Internet的说明。
+
+不过，由于这两个程序主要是搜索设置文件（ifcfg-ethx）来进行启动与关闭的，所以在使用前请确定ifcfg-ethx是否真的存在于正确的目录内，否则会启动失败。另外，如果以ifconfig eth0来设置或者是修改了网络接口后，就无法再以ifdown eth0的方式来关闭了。因为ifdown会分析比较目前的网络参数与ifcfg-eth0是否相符，不符的话，就会放弃这次操作。因此，使用ifconfig修改完毕后，应该要以ifconfig eth0 down才能够关闭该接口。
+ 
+如何让LINUX网卡开机自动启动
+
+激活网卡的命令是：ifconfig eth0 up你既然知道了命令，自己做一个脚本，放在启动项目就可以了。
+通过编辑网卡配置文件修改网卡配置文件保存在/etc/sysconfig/network-scripts目录下面。
+第一块网卡的文件是ifcfg-eth0
+第二块网卡的文件是ifcfg-eth1
+以此类推，如果如果你有一块，那么你就输入一下命令
+[root@linux ~]# vi /etc/sysconfig/network-scripts/ifcfg-eth0
+打开之后，将ONBOOT=no，改为ONBOOT=yes,(如果没有，手动添加ONBOOT=yes),:wq保存退出，重启服务。
+echo "ONBOOT=yes" >> /etc/sysconfig/network-script/ifcfg-eth0
+在/etc/sysconfig/network-scripts中添加ONBOOT=yes设置网络开机自动启动
+
+ linux命令2: /etc/init.d/network restart 和 service network restart
+[root@CentOS2 ~]# /etc/init.d/network restart
+正在关闭接口 eth1：                              [确定]
+关闭环回接口：                                 [确定]
+弹出环回接口：                                 [确定]
+弹出界面 eth1： Determining if ip address 10.0.0.168 is already in use for device eth1...
+                                          [确定]
+[root@CentOS2 ~]# service network restart
+正在关闭接口 eth1：                              [确定]
+关闭环回接口：                                 [确定]
+弹出环回接口：                                 [确定]
+弹出界面 eth1： Determining if ip address 10.0.0.168 is already in use for device eth1...
+                                          [确定]
+
+

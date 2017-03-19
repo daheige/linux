@@ -1,0 +1,65 @@
+linux下dd命令详解
+名称: dd
+使用权限: 所有使用者dd 这个指令在 manual 里的定义是 convert and copy a file
+使用方式:
+dd [option]
+如果你想要在线看 manual, 可以试试:
+dd --help
+或是
+info dd
+如果你想要看看这个版本如何:
+dd --version
+输入或输出
+dd if=[STDIN] of=[STDOUT]
+强迫输入或输出的Size为多少Bytes
+bs: dd -ibs=[BYTE] -obs=[SIZE]
+强迫一次只做多少个 Bytes
+cbs=BYTES
+跳过一段以后才输出
+seek=BLOCKS
+跳过一段以后才输入
+skip=BLOCKS
+当然你可以拿这个来方便的拷贝光碟(注意，你的光碟是标准的 iso9660格式才可以这么做唷！)
+dd if=/dev/cdrom of=cdrom.iso
+其中 if 后面以及 of 后面的内容依你的需求调整。
+然后给系统这个指令就可以烧了:
+cdrecord -v cdrom.iso
+这篇不是在讲 cdrecord 的，所以上面的指令是最为简单但是不一定能符合您的硬件环境...
+功
+能：把指定的输入文件拷贝到指定的输出文件中，并且在拷贝过程中可以进行格式转换。可以用该命令实现DOS下的diskcopy命令的作用。先用dd命令
+把软盘上的数据写成硬盘的一个寄存文件，再把这个寄存文件写入第二张软盘上，完成diskcopy的功能。需要注意的是，应该将硬盘上的寄存文件用rm
+命令删除掉。系统默认使用标准输入文件和标准输出文件。
+语法：dd [选项]
+if =输入文件（或设备名称）。
+of =输出文件（或设备名称）。
+ibs = bytes 一次读取bytes字节，即读入缓冲区的字节数。
+skip = blocks 跳过读入缓冲区开头的ibs*blocks块。
+obs = bytes 一次写入bytes字节，即写入缓冲区的字节数。
+bs = bytes 同时设置读/写缓冲区的字节数（等于设置ibs和obs）。
+cbs = byte 一次转换bytes字节。
+count=blocks 只拷贝输入的blocks块。
+conv = ASCII 把EBCDIC码转换为ASCIl码。
+conv = ebcdic 把ASCIl码转换为EBCDIC码。
+conv = ibm 把ASCIl码转换为alternate EBCDIC码。
+conv = block 把变动位转换成固定字符。
+conv = ublock 把固定位转换成变动位。
+conv = ucase 把字母由小写转换为大写。
+conv = lcase 把字母由大写转换为小写。
+conv = notrunc 不截短输出文件。
+conv = swab 交换每一对输入字节。
+conv = noerror 出错时不停止处理。
+conv = sync 把每个输入记录的大小都调到ibs的大小（用NUL填充）。
+　
+例1：要把一张软盘的内容拷贝到另一张软盘上，利用/tmp作为临时存储区。把源盘插入驱动器中，输入下述命令：
+$ dd if =/dev/fd0 of = /tmp/tmpfile
+拷贝完成后，将源盘从驱动器中取出，把目标盘插入，输入命令：
+$ dd if = /tmp/tmpfile of =/dev/fd0
+软盘拷贝完成后，应该将临时文件删除：
+$ rm /tmp/tmpfile
+　
+例2：把net.i这个文件写入软盘中，并设定读/写缓冲区的数目。
+（注意：软盘中的内容会被完全覆盖掉）
+$ dd if = net.i of = /dev/fd0 bs = 16384
+　
+例3：将文件sfile拷贝到文件 dfile中。
+$ dd if=sfile of=dfile

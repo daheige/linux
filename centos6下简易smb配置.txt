@@ -1,0 +1,54 @@
+centos6.5 smb服务器搭建和配置
+1、安装服务器
+[root@localhost ~]# yum -y install samba
+2、配置工作区
+配置vim /etc/samba/smb.conf
+找到workgroup 修改为workgroup = WORKGROUP
+配置工作组权限
+[WORKGROUP]
+;描述
+comment=workgroup smb
+;共享路径
+path=/home/workgroup
+;是否公开目录
+public=yes
+writeable=yes
+;不许游客访问
+guest ok=no
+;允许的网段
+hosts allow=127. 192.168.1.
+;允许浏览器查看
+browseable=yes
+3、添加用户到smb服务组（一般是存在的用户）
+[root@localhost ~]# smbpasswd -a heige
+New SMB password:
+Retype new SMB password:
+Added user heige.
+4、改变/home/workgroup目录权限
+查看组heige
+[root@localhost ~]# id heige
+uid=500(heige) gid=500(heige) 组=500(heige)
+[root@localhost ~]# chown -R heige. /home/workgroup
+chown: 无法访问"/home/workgroup": 没有那个文件或目录
+[root@localhost ~]# mkdir /home/workgroup
+[root@localhost ~]# chown -R heige. /home/workgroup
+设置权限
+[root@localhost ~]# chmod 777 /home/workgroup/
+5、设置防火墙端口
+[root@localhost ~]# vim /etc/sysconfig/iptables
+新增如下端口在22下面一行（一些常见的端口22,80,3306建议开启）
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 138 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 139 -j ACCEPT
+6、重启服务器防火墙
+[root@localhost ~]# service iptables restart
+iptables：将链设置为政策 ACCEPT：filter                    [确定]
+iptables：清除防火墙规则：                                 [确定]
+iptables：正在卸载模块：                                   [确定]
+iptables：应用防火墙规则：                                 [确定]
+7、加入开机启动
+[root@localhost ~]# chkconfig smb on
+
+使用：
+在window下资源管理下输入：\\192.168.1.103
+
+输入我们设置好的heige用户就可以连接，实现共享。

@@ -1,0 +1,113 @@
+步骤1、配置/etc/sysconfig/network-scripts/ifcfg-eth0 里的文件。
+[root@localhost ~]# vim /etc/sysconfig/network-scripts/ifcfg-eth0
+DEVICE="eth0"
+HWADDR="00:0C:29:FD:FF:2A"
+NM_CONTROLLED="yes"
+ONBOOT="yes"
+IPADDR=192.168.1.31
+NETMASK=255.255.255.0
+GATEWAY=192.168.1.1
+BOOTPROTO=static
+
+1、设置静态IP和DNS 
+Shell代码  
+vi /etc/sysconfig/network-scripts/ifcfg-eth0  
+DEVICE="eth0"  
+BOOTPROTO="static"    
+IPV6INIT="yes"  
+NM_CONTROLLED="yes"  
+ONBOOT="yes"  
+TYPE="Ethernet"    
+IPADDR=192.168.1.88  
+NETMAST=255.255.255.0  
+DNS1=61.139.2.69  
+2、网关设置 
+Shell代码  
+在文件 vi /etc/sysconfig/network最后一行加入：  
+  
+GATEWAY=192.168.1.1  
+重启：service network restart 
+
+
+
+前面三行是系统睚带的，后面就是手动添加的。
+这样设置扣，记得重启网卡：
+[root@localhost ~]# /etc/init.d/network stop
+[root@localhost ~]# /etc/init.d/network start
+
+行了，现在就可以PING得通网关了，如果还得上网，不必须设置DNS。设置DNS就详见步骤2
+
+步骤2、修改dns
+[root@localhost ~]# vi /etc/resolv.conf 
+在里面添加二个dns：(一般来说是网关地址）
+nameserver 202.96.134.133
+nameserver 8.8.8.8
+
+ok，大攻告成，即可上网了！！！！
+
+以下是参考，如果按上面步骤不行，可以详细看以下内容：
+网络接口配置文件
+[root@localhost ~]# cat /etc/sysconfig/network-scripts/ifcfg-eth0
+# Intel Corporation 82545EM Gigabit Ethernet Controller (Copper)
+TYPE=Ethernet       #网卡类型
+DEVICE=eth0         #网卡接口名称
+ONBOOT=yes          #系统启动时是否自动加载
+BOOTPROTO=static    #启用地址协议 --static:静态协议 --bootp协议 --dhcp协议
+IPADDR=192.168.1.11      #网卡IP地址
+NETMASK=255.255.255.0    #网卡网络地址
+GATEWAY=192.168.1.1      #网卡网关地址
+DNS1=10.203.104.41       #网卡DNS地址
+HWADDR=00:0C:29:13:5D:74 #网卡设备MAC地址
+BROADCAST=192.168.1.255  #网卡广播地址 
+重新导入ifcfg-eth0网络配置文件
+[root@localhost ~]# /etc/init.d/network reload
+Shutting down interface eth0:                             [ OK ]
+Shutting down loopback interface:                         [ OK ]
+Bringing up loopback interface:                           [ OK ]
+Bringing up interface eth0:                               [ OK ]
+网卡接口关闭与激活
+[root@localhost ~]# ifdown eth0   #关闭网络
+[root@localhost ~]# ifup eth0     #启动网络
+网络服务启动与关闭
+方法一:
+[root@localhost ~]# service network stop    #关闭网络服务
+[root@localhost ~]# service network start   #启动网络服务
+[root@localhost ~]# service network restart #重启网络服务
+方法二：
+[root@localhost ~]# /etc/init.d/network stop
+[root@localhost ~]# /etc/init.d/network start
+[root@localhost ~]# /etc/init.d/network restart 
+网卡状态查询
+[root@localhost ~]# service network status
+Configured devices:
+lo eth0
+Currently active devices:
+lo eth0
+临时配置网卡信息，无需重启。
+[root@localhost ~]# ifconfig eth0 10.1.1.10 netmask 255.0.0.0
+查看网卡接口信息，默认列出所有接口
+[root@localhost ~]# ifconfig
+eth0      Link encap:Ethernet  HWaddr 00:0C:29:13:5D:74
+          inet addr:192.168.1.11  Bcast:192.168.1.255  Mask:255.255.255.0
+          inet6 addr: fe80::20c:29ff:fe13:5d74/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:413 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:572 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:47701 (46.5 KiB)  TX bytes:64842 (63.3 KiB)
+          Base address:0x2000 Memory:d8920000-d8940000
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:407 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:407 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:70759 (69.1 KiB)  TX bytes:70759 (69.1 KiB)
+查看当前路由及网关信息
+[root@localhost ~]# netstat -r
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+192.168.1.0     *               255.255.255.0   U         0 0          0 eth0
+169.254.0.0     *               255.255.0.0     U         0 0          0 eth0
+default         192.168.1.1     0.0.0.0         UG        0 0          0 eth0DNS：主机名：CentOS主DNS：202.106.46.151第二DNS:202.106.0.20第三DNS:8.8.8.8网络配置：eth0静态ip：192.168.1.106子网掩码        255.255.255.0默认网关 IP     192.168.1.1DEVICE=eth0IPADDR=192.168.1.106NETMASK=255.255.255.0BROADCAST=192.168.1.255ONBOOT=yesBOOTPROTO=noneGATEWAY=192.168.1.1TYPE=Ethernet"/etc/sysconfig/network-scripts/ifcfg-eth0" 11L, 187C

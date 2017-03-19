@@ -1,0 +1,13 @@
+127.0.0.1       localhost
+127.0.0.1		localhost
+
+127.0.0.1		 baodao.com
+127.0.0.1		 www.baodao.com
+
+127.0.0.1       heige.com
+127.0.0.1       www.heige.com
+#dedecms÷˜ª˙≈‰÷√
+127.0.0.1       dedecms.com
+127.0.0.1       www.dedecms.com
+#127.0.0.1       localhost
+#127.0.0.1       localhost127.0.0.1       localhost

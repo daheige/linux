@@ -1,0 +1,70 @@
+mongodb拓展下载地址：https://pecl.php.net/package/mongodb
+
+下载
+wget https://pecl.php.net/get/mongodb-1.1.9.tgz
+
+解压：
+tar zxvf mongodb-1.1.9.tgz
+
+利用phpize来安装拓展
+cd mongodb-1.1.9
+/usr/local/php/bin/phpize
+
+安装自动编译软件
+root@dahei:/usr/local/mongodb-1.1.9# apt-get install autoconf
+
+
+继续编译php-mongodb拓展
+先找到php的配置文件存放的目录
+root@dahei:/usr/local/mongodb-1.1.9# whereis php
+php: /usr/bin/php /usr/local/php
+
+我们将php-mongodb的拓展编译到/usr/local/php/bin/php-config
+
+root@dahei:/usr/local/mongodb-1.1.9# ./configure --with-php-config=/usr/local/php/bin/php-config
+
+编译之后就是安装
+root@dahei:/usr/local/mongodb-1.1.9# make && make install
+当我们看到如下：
+Installing shared extensions:     /usr/local/php/lib/php/extensions/no-debug-non-zts-20151012/
+
+表示我们的php-mongodb.so已经生成
+
+接着讲php-mongodb.so的拓展添加到php拓展中
+
+编辑php.ini增加下述一行添加mongodb扩展
+root@dahei:/usr/local/mongodb-1.1.9# vim /usr/local/php/etc/php.ini
+在733行添加
+extension = "mongodb.so"
+
+最后重启服务器
+root@dahei:/usr/local# /etc/init.d/nginx restart
+Stoping nginx...  done
+Starting nginx...  done
+root@dahei:/usr/local# /etc/init.d/php-fpm restart
+Gracefully shutting down php-fpm . done
+Starting php-fpm  done
+root@dahei:/usr/local#
+
+
+校验php-mongodb.so是否安装成功
+切换到localhost默认的web容器中
+root@dahei:~# cd /home/wwwroot/default/
+root@dahei:/home/wwwroot/default# vim t.php
+添加如下内容
+<?php
+phpinfo();
+
+运行localhost/t.php
+
+ctrl+f搜索mongo如果有，表示已经安装成功。
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,41 @@
+﻿1.确定镜像iso文件已挂载成功，见虚拟机菜单栏VM中setting，查看CD/DVD（STAT）。
+2.mount查看挂载情况，创建挂载目录/mnt/cdrom(此目录自定义)
+一般镜像文件是/dev/sr0,若已经挂载先umount /dev/sr0；再mount /dev/sr0 /mnt/cdrom,再使用mount查看确定挂载情况。
+
+
+3.确定/dev/sr0 成功挂载至/mnt/cdrom后，cd /etc/yum.repods.d,
+ll 查看现有的repo文件，如果存在就备份为xxx.repo.bak
+在目录/etc/yum.repods下创建yumlocal.repo（注：此处文件名可自定义，但必须以.repo结尾）。
+
+
+4.vim /etc/yum.repods/yumlocal.repo,以下是以rhel6.5版本为例
+
+[server] （'[]'两边不能有空格）
+filename=yumlocal(自定义)
+baseurl=file：///mnt/cdrom/Server (必须是file：//或是ftp：//或是http：//开头；/media/cdrom为镜像iso挂载的目录；Server为镜像文件中的一个文件目录，里面都是rpm软件包)
+enabled=1（启用yum，‘1’表开启，‘0’表禁用）
+gpgcheck=0（校验gpg密钥，‘1’表校验，校验需另加一行gpgkey=file：//‘xxxxx’，‘0’表不校验）
+一共是五行，都是必须的。
+
+5.至此rhel本地YUM源配置完毕，检验是否有效，如yum install -y http
+
+常用的yum相关命令：
+1.yum （re）install （重装）安装软件；
+2.yum remove 删除软件；
+3.yum clean all 清除yum缓存；
+4.yum （group）list 列出所有可用的rpm软件包（或组）；
+5.yum info 列出可更新或安装的rpm包；
+6.yum update 更新软件包 【详情更详细使用方法：man yum】
+
+6.将mount /dev/sr0  /mnt/cdrom设置为开机自启动。 第一种方法：将上述命令写入/etc/rc.local  
+第二种：打开/etc/fstab 按照此文件中的格式写入相关开机挂载信息，具体注释如下：
+/dev/sr0        /mnt/cdrom/        iso9660       defaults        0     0  
+要挂载的文件 挂载点（目录） 挂载文件格式   设定状态    注释5   注释6
+
+要挂载的文件或设备：想要设备名或者设备卷标名。
+挂载点：想要将其加入至哪个目录位置，如/home或/yum。
+挂载的文件系统格式：有以下格式：ext、ext2、msdos、iso9660、nfs、swap等，或如ext2，可以参见/prco /filesystems说明。
+设定状态：mount时，所要设定的状态，如ro（只读）或defaults（包括了其它参数如rw、suid、exec、auto、nouser、 async），可以参见「mount nfs」。
+注释5：提供DUMP（备份）功能，（0为不备份，1为要备份，一般根分区要备份，其余不备份）
+注释6：设定此filesystem是否要在开机时做check的动作，0为不自检，1或者2为要自检，如果是根分区要设为1，其他分区只能是2（除了root的filesystem其必要的check为1之外，其它皆可视需要 设定，内定值是0。）
+
