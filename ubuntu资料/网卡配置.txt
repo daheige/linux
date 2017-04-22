@@ -30,4 +30,4 @@ nameserver 202.96.128.86
 
 3. 重启网卡：
 
-sudo /etc/init.d/network restart
+sudo /etc/init.d/networking restart
