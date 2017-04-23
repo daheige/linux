@@ -3,14 +3,13 @@
 sudo vim /etc/network/interfaces
 
 修改如下部分：
-
+# interfaces(5) file used by ifup(8) and ifdown(8)
 auto ens33
 iface ens33 inet static
-address 192.168.0.117
-gateway 192.168.0.1 #这个地址你要确认下 网关是不是这个地址
+address 192.168.1.108
 netmask 255.255.255.0
-network 192.168.0.0
-broadcast 192.168.0.255
+gateway 192.168.1.253
+
 
 2. 修改dns解析
 
@@ -24,7 +23,9 @@ sudo vim /etc/resolv.conf
 
 写上一个公网的DNS
 
-nameserver 202.96.128.86
+#aliyun dns
+nameserver 140.205.34.13
+nameserver 111.13.101.208
 
 （注意：8.8.8.8是谷歌的DNS服务器，但是解析速度慢，还是找到一个国内的dns来用）
 
