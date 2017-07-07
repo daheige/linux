@@ -35,8 +35,10 @@ iface ens33 inet static
 address 192.168.1.103
 netmask 255.255.255.0
 gateway 192.168.1.1 
-2）修改 resolvconf服务的配置文件: /etc/resolvconf/resolv.conf.d/base 
-dns-nameservers 111.13.101.208  140.205.34.13
+2）修改 resolvconf服务的配置文件: /etc/resolvconf/resolv.conf.d/base (永久生效）
+nameserver 111.13.101.208  
+nameserver 140.205.34.13
+nameserver 119.29.29.29
 这样，在机器重启或 resolvconf 服务重启 都可以保证配置会写到/etc/resolv.conf 里面 
 （注意：111.13.101.208是aliyun的DNS服务器）
 3. 重启网卡：
