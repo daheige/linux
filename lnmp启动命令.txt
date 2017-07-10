@@ -1,9 +1,17 @@
-LNMP×´Ì¬¹ÜÀíÃüÁî£º
-LNMP×´Ì¬¹ÜÀí£º /root/lnmp {start|stop|reload|restart|kill|status}
-Nginx×´Ì¬¹ÜÀí£º/etc/init.d/nginx {start|stop|reload|restart}
-MySQL×´Ì¬¹ÜÀí£º/etc/init.d/mysql {start|stop|restart|reload|force-reload|status}
-Memcached×´Ì¬¹ÜÀí£º/etc/init.d/memcached {start|stop|restart}
-PHP-FPM×´Ì¬¹ÜÀí£º/etc/init.d/php-fpm {start|stop|quit|restart|reload|logrotate}
-PureFTPd×´Ì¬¹ÜÀí£º /etc/init.d/pureftpd {start|stop|restart|kill|status}
-ProFTPd×´Ì¬¹ÜÀí£º /etc/init.d/proftpd {start|stop|restart|reload}
-ÈçÖØÆôLNMP£¬ÊäÈëÃüÁî£º/root/lnmp restart ¼´¿É£¬µ¥¶ÀÖØÆômysql£º/etc/init.d/mysql restart
+LNMPçŠ¶æ€ç®¡ç†å‘½ä»¤ï¼š
+LNMPçŠ¶æ€ç®¡ç†ï¼š /root/lnmp {start|stop|reload|restart|kill|status}
+NginxçŠ¶æ€ç®¡ç†ï¼š/etc/init.d/nginx {start|stop|reload|restart}
+MySQLçŠ¶æ€ç®¡ç†ï¼š/etc/init.d/mysql {start|stop|restart|reload|force-reload|status}
+MemcachedçŠ¶æ€ç®¡ç†ï¼š/etc/init.d/memcached {start|stop|restart}
+PHP-FPMçŠ¶æ€ç®¡ç†ï¼š/etc/init.d/php-fpm {start|stop|quit|restart|reload|logrotate}
+PureFTPdçŠ¶æ€ç®¡ç†ï¼š /etc/init.d/pureftpd {start|stop|restart|kill|status}
+ProFTPdçŠ¶æ€ç®¡ç†ï¼š /etc/init.d/proftpd {start|stop|restart|reload}
+å¦‚é‡å¯LNMPï¼Œè¾“å…¥å‘½ä»¤ï¼š/root/lnmp restart å³å¯ï¼Œå•ç‹¬é‡å¯mysqlï¼š/etc/init.d/mysql restart
+
+LNMP1.2+çŠ¶æ€ç®¡ç†å‘½ä»¤ï¼š
+LNMP 1.2+çŠ¶æ€ç®¡ç†: lnmp {start|stop|reload|restart|kill|status}
+LNMP 1.2+å„ä¸ªç¨‹åºçŠ¶æ€ç®¡ç†: lnmp {httpd|mysql|mariadb|pureftpd} {start|stop|reload|restart|kill|status}
+LNMPA1.1çŠ¶æ€ç®¡ç†ï¼š /root/lnmpa {start|stop|reload|restart|kill|status}
+NginxçŠ¶æ€ç®¡ç†ï¼š/etc/init.d/nginx {start|stop|reload|restart}
+MySQLçŠ¶æ€ç®¡ç†ï¼š/etc/init.d/mysql {start|stop|restart|reload|force-reload|status}
+MemcachedçŠ¶æ€ç®¡ç†ï¼š/etc/init.d/memcached {start|stop|restart}
