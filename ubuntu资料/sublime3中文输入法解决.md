@@ -62,6 +62,9 @@ sudo cp libsublime-imfix.so /opt/sublime_text/libsublime-imfix.so
 export LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so
 
 5、修改sublime-text.desktop
+sudo rm -rf /usr/share/applications/sublime-text.desktop #删除原有的桌面方式
+建立软连接
+sudo ln -s /opt/sublime_text/sublime_text.desktop /usr/share/applications/sublime-text.desktop
 sudo vim /usr/share/applications/sublime_text.desktop
 ```
 [Desktop Entry]
@@ -71,7 +74,7 @@ Name=Sublime Text
 GenericName=Text Editor
 Comment=Sophisticated text editor for code, markup and prose
 #Exec=/opt/sublime_text/sublime_text %F 
-Exec=/usr/bin/subl %F  #需要修改的地方
+Exec=/usr/bin/subl %F #需要修改的地方
 Terminal=false
 MimeType=text/plain;
 Icon=sublime-text
@@ -90,7 +93,7 @@ OnlyShowIn=Unity;
 [Desktop Action Document]
 Name=New File
 #Exec=/opt/sublime_text/sublime_text --command new_file
-Exec=/usr/bin/subl new_file #需要修改的地方
+Exec=/usr/bin/subl --command new_file #需要修改的地方
 OnlyShowIn=Unity;
 ```
 
