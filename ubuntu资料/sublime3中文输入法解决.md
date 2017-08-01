@@ -62,7 +62,7 @@ sudo cp libsublime-imfix.so /opt/sublime_text/libsublime-imfix.so
 export LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so
 
 5、修改sublime-text.desktop
-sudo rm -rf /usr/share/applications/sublime-text.desktop #删除原有的桌面方式
+sudo rm -rf /usr/share/applications/sublime-text.desktop #删除原有的桌面方式<br/>
 建立软连接
 sudo ln -s /opt/sublime_text/sublime_text.desktop /usr/share/applications/sublime-text.desktop
 sudo vim /usr/share/applications/sublime_text.desktop
@@ -95,6 +95,27 @@ Name=New File
 #Exec=/opt/sublime_text/sublime_text --command new_file
 Exec=/usr/bin/subl --command new_file #需要修改的地方
 OnlyShowIn=Unity;
+
+另外的方法：
+为了使用鼠标右键打开文件时能够使用中文输入，还需要修改文件sublime_text.desktop的内容。
+命令
+sudo gedit /usr/share/applications/sublime_text.desktop
+将[Desktop Entry]中的字符串
+Exec=/opt/sublime_text/sublime_text %F
+修改为
+Exec=bash -c "LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so exec /opt/sublime_text/sublime_text %F"
+将[Desktop Action Window]中的字符串
+Exec=/opt/sublime_text/sublime_text -n
+修改为
+Exec=bash -c "LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so exec /opt/sublime_text/sublime_text -n"
+将[Desktop Action Document]中的字符串
+Exec=/opt/sublime_text/sublime_text --command new_file
+修改为
+Exec=bash -c "LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so exec /opt/sublime_text/sublime_text --command new_file"
+注意：
+修改时请注意双引号"",否则会导致不能打开带有空格文件名的文件。
+此处仅修改了/usr/share/applications/sublime-text.desktop，但可以正常使用了。
+opt/sublime_text/目录下的sublime-text.desktop可以修改，也可不修改
 ```
 
 
