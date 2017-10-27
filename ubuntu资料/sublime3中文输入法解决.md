@@ -40,10 +40,10 @@ gtk_im_context_set_client_window (
 
     if(width != 0 && height !=0)
     {
-
+        gtk_im_context_focus_in(context);
     }
 
-    gtk_im_context_focus_in(context);
+    
 }
 ```
 :wq保存到～下
