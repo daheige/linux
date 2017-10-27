@@ -63,7 +63,8 @@ export LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so
 sudo rm -rf /usr/share/applications/sublime-text.desktop #删除原有的桌面方式
 建立软连接
   sudo ln -s /opt/sublime_text/sublime_text.desktop /usr/share/applications/sublime-text.desktop
-  sudo vim /usr/share/applications/sublime_text.desktop
+  sudo ln -s /usr/share/applications/sublime-text.desktop /usr/share/applications/sublime_text.desktop
+  sudo vim /usr/share/applications/sublime_text.desktop
 
 [Desktop Entry]
 Version=1.0
