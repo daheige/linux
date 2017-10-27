@@ -1,6 +1,7 @@
-安装GTK库 首先确保您的电脑已经安装了GTK库 执行和如下命令可以查看电脑上是否安装了GTK <br/>
-#1、查看是否安装GTK
 ```
+安装GTK库
+首先确保您的电脑已经安装了GTK库 执行和如下命令可以查看电脑上是否安装了GTK <br/>
+1、查看是否安装GTK
 pkg-config --modversion gtk+ (查看1.2.x版本)
 pkg-config --modversion gtk+-2.0 (查看 2.x 版本)
 pkg-config --version (查看pkg-config的版本)
@@ -13,7 +14,6 @@ sudo apt-get install libgtk2.0-dev
 3、编译动态库 
 # cd ~ 
 # vim sublime_imfix.c 内容如下： 
-```
 #include <gtk/gtkimcontext.h>
 
 void 
@@ -45,13 +45,11 @@ gtk_im_context_set_client_window (
 
     
 }
-```
+
 :wq保存到～下
 
 4、编译成共享库
-```
 gcc -shared -o libsublime-imfix.so sublime_imfix.c  `pkg-config --libs --cflags gtk+-2.0` -fPIC
-```
 拷贝到/opt/sublime_text目录下
 
 sudo cp libsublime-imfix.so /opt/sublime_text/libsublime-imfix.so
@@ -62,11 +60,12 @@ sudo cp libsublime-imfix.so /opt/sublime_text/libsublime-imfix.so
 export LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so
 
 5、修改sublime-text.desktop
-sudo rm -rf /usr/share/applications/sublime-text.desktop #删除原有的桌面方式<br/>
+sudo rm -rf /usr/share/applications/sublime-text.desktop #删除原有的桌面方式
+
 建立软连接
 sudo ln -s /opt/sublime_text/sublime_text.desktop /usr/share/applications/sublime-text.desktop
 sudo vim /usr/share/applications/sublime_text.desktop
-```
+
 [Desktop Entry]
 Version=1.0
 Type=Application
