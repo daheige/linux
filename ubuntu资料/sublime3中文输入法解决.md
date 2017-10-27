@@ -6,7 +6,7 @@ pkg-config --modversion gtk+ (查看1.2.x版本)
 pkg-config --modversion gtk+-2.0 (查看 2.x 版本)
 pkg-config --version (查看pkg-config的版本)
 pkg-config --list-all grep gtk (查看是否安装了gtk)
-```
+
 2、如果没有安装，请安装GTK库 
 或者执行如下命令安装GTK基本库就行<br/>
 sudo apt-get install libgtk2.0-dev
@@ -61,10 +61,9 @@ export LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so
 
 5、修改sublime-text.desktop
 sudo rm -rf /usr/share/applications/sublime-text.desktop #删除原有的桌面方式
-
 建立软连接
-sudo ln -s /opt/sublime_text/sublime_text.desktop /usr/share/applications/sublime-text.desktop
-sudo vim /usr/share/applications/sublime_text.desktop
+  sudo ln -s /opt/sublime_text/sublime_text.desktop /usr/share/applications/sublime-text.desktop
+  sudo vim /usr/share/applications/sublime_text.desktop
 
 [Desktop Entry]
 Version=1.0
@@ -116,9 +115,3 @@ Exec=bash -c "LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so exec /opt/sublime
 此处仅修改了/usr/share/applications/sublime-text.desktop，但可以正常使用了。
 opt/sublime_text/目录下的sublime-text.desktop可以修改，也可不修改
 ```
-
-
-
-
-
-
