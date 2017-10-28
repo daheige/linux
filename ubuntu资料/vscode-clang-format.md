@@ -38,4 +38,58 @@ eslint插件需要npm install -g eslint(这里需要提前安装好nodejs8.0.0+�
     "go.formatOnSave": true,
 
 }
+
+
+
+在项目目录下创建.clang-format可以格式化c
+Language: Cpp
+
+#If true, analyze the formatted file for the most common alignment of & and *. PointerAlignment is then used only as fallback.
+
+DerivePointerAlignment: false
+
+IndentWidth: 4
+
+#@[]里面两边空格，原true
+
+SpacesInContainerLiterals: false
+
+#Add a space after @property in Objective-C, i.e. use \@property (readonly) instead of \@property(readonly).
+
+ObjCSpaceAfterProperty: true
+
+#The number of characters to use for indentation of ObjC blocks.
+
+ObjCBlockIndentWidth: 4
+
+#If true, if (a) return; can be put on a single line.
+
+AllowShortIfStatementsOnASingleLine: true
+
+#If false, spaces will be removed before assignment operators.
+
+SpaceBeforeAssignmentOperators: true
+
+#Pointer and reference alignment style.
+
+PointerAlignment: Right
+
+#The maximum number of consecutive empty lines to keep.
+
+MaxEmptyLinesToKeep: 1
+
+#每行字符的长度
+
+ColumnLimit: 0
+#注释对齐
+
+AlignTrailingComments: true
+
+#括号后加空格
+SpaceAfterCStyleCast: true
+
+SpacesInParentheses : false
+
+SpacesInSquareBrackets : false
+
 ```
