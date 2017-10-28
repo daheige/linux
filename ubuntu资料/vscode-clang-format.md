@@ -17,7 +17,6 @@ eslint插件需要npm install -g eslint(这里需要提前安装好nodejs8.0.0+�
     "editor.insertSpaces": true,
     "editor.autoIndent": true,
     "prettier.tabWidth": 4,
-    "php.executablePath": "/usr/bin/php",
     "phpfmt.format_on_save": true,
     "phpfmt.php_bin": "/usr/bin/php",
     "phpfmt.psr2": true,
@@ -36,10 +35,9 @@ eslint插件需要npm install -g eslint(这里需要提前安装好nodejs8.0.0+�
     "go.gopath": "/mygo",
     "go.goroot": "/usr/local/go",
     "go.formatOnSave": true,
-
+    "editor.trimAutoWhitespace": true,
+    "workbench.colorTheme": "Monokai"
 }
-
-
 
 在项目目录下创建.clang-format可以格式化c
 Language: Cpp
