@@ -16,34 +16,35 @@ sudo apt-get install libgtk2.0-dev
 # vim sublime_imfix.c 内容如下： 
 #include <gtk/gtkimcontext.h>
 
-void 
-gtk_im_context_set_client_window (
-                                GtkIMContext *context,
-                                GdkWindow    *window)
+void gtk_im_context_set_client_window(GtkIMContext *context,
+
+                                      GdkWindow *window)
+
 {
+
     GtkIMContextClass *klass;
-    g_return_if_fail (GTK_IS_IM_CONTEXT (context));
-    klass = GTK_IM_CONTEXT_GET_CLASS (context);
+
+    g_return_if_fail(GTK_IS_IM_CONTEXT(context));
+
+    klass = GTK_IM_CONTEXT_GET_CLASS(context);
 
     if (klass->set_client_window)
-    {
-        klass->set_client_window (context, window);
-    }
-    g_object_set_data(G_OBJECT(context),"window",window);
 
-    if(!GDK_IS_WINDOW (window))
-    {
+        klass->set_client_window(context, window);
+
+    g_object_set_data(G_OBJECT(context), "window", window);
+
+    if (!GDK_IS_WINDOW(window))
+
         return;
-    }
+
     int width = gdk_window_get_width(window);
+
     int height = gdk_window_get_height(window);
 
-    if(width != 0 && height !=0)
-    {
-        gtk_im_context_focus_in(context);
-    }
+    if (width != 0 && height != 0)
 
-    
+        gtk_im_context_focus_in(context);
 }
 
 :wq保存到～下
@@ -62,9 +63,9 @@ export LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so
 5、修改sublime-text.desktop
 sudo rm -rf /usr/share/applications/sublime-text.desktop #删除原有的桌面方式
 建立软连接
-  sudo ln -s /opt/sublime_text/sublime_text.desktop /usr/share/applications/sublime-text.desktop
+  sudo ln -s /opt/sublime_text/sublime-text.desktop /usr/share/applications/sublime-text.desktop
   sudo ln -s /usr/share/applications/sublime-text.desktop /usr/share/applications/sublime_text.desktop
-  sudo vim /usr/share/applications/sublime_text.desktop
+  sudo vim /usr/share/applications/sublime-text.desktop
 
 [Desktop Entry]
 Version=1.0
@@ -115,4 +116,29 @@ Exec=bash -c "LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so exec /opt/sublime
 修改时请注意双引号"",否则会导致不能打开带有空格文件名的文件。
 此处仅修改了/usr/share/applications/sublime-text.desktop，但可以正常使用了。
 opt/sublime_text/目录下的sublime-text.desktop可以修改，也可不修改
+
+完整的sublime-text.desktop
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Sublime Text
+GenericName=Text Editor
+Comment=Sophisticated text editor for code, markup and prose
+Exec=/usr/bin/subl %F
+Terminal=false
+MimeType=text/plain;
+Icon=sublime-text
+Categories=TextEditor;Development;
+StartupNotify=true
+Actions=Window;Document;
+
+[Desktop Action Window]
+Name=New Window
+Exec=/usr/bin/subl -n
+OnlyShowIn=Unity;
+
+[Desktop Action Document]
+Name=New File
+Exec=/usr/bin/subl --command new_file
+OnlyShowIn=Unity;
 ```
