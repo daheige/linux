@@ -63,74 +63,23 @@ export LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so
 5、修改sublime-text.desktop
 sudo rm -rf /usr/share/applications/sublime-text.desktop #删除原有的桌面方式
 建立软连接
+  sudo touch /opt/sublime_text/sublime-text.desktop
   sudo ln -s /opt/sublime_text/sublime-text.desktop /usr/share/applications/sublime-text.desktop
-  sudo ln -s /usr/share/applications/sublime-text.desktop /usr/share/applications/sublime_text.desktop
-  sudo vim /usr/share/applications/sublime-text.desktop
-
-[Desktop Entry]
-Version=1.0
-Type=Application
-Name=Sublime Text
-GenericName=Text Editor
-Comment=Sophisticated text editor for code, markup and prose
-#Exec=/opt/sublime_text/sublime_text %F 
-Exec=/usr/bin/subl %F #需要修改的地方
-Terminal=false
-MimeType=text/plain;
-Icon=sublime-text
-Categories=TextEditor;Development;Utility;
-StartupNotify=true
-Actions=Window;Document;
-
-X-Desktop-File-Install-Version=0.22
-
-[Desktop Action Window]
-Name=New Window
-#Exec=/opt/sublime_text/sublime_text -n  #需要修改的地方
-Exec=/usr/bin/subl -n
-OnlyShowIn=Unity;
-
-[Desktop Action Document]
-Name=New File
-#Exec=/opt/sublime_text/sublime_text --command new_file
-Exec=/usr/bin/subl --command new_file #需要修改的地方
-OnlyShowIn=Unity;
-
-另外的方法：
-为了使用鼠标右键打开文件时能够使用中文输入，还需要修改文件sublime_text.desktop的内容。
-命令
-sudo gedit /usr/share/applications/sublime_text.desktop
-将[Desktop Entry]中的字符串
-Exec=/opt/sublime_text/sublime_text %F
-修改为
-Exec=bash -c "LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so exec /opt/sublime_text/sublime_text %F"
-将[Desktop Action Window]中的字符串
-Exec=/opt/sublime_text/sublime_text -n
-修改为
-Exec=bash -c "LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so exec /opt/sublime_text/sublime_text -n"
-将[Desktop Action Document]中的字符串
-Exec=/opt/sublime_text/sublime_text --command new_file
-修改为
-Exec=bash -c "LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so exec /opt/sublime_text/sublime_text --command new_file"
-注意：
-修改时请注意双引号"",否则会导致不能打开带有空格文件名的文件。
-此处仅修改了/usr/share/applications/sublime-text.desktop，但可以正常使用了。
-opt/sublime_text/目录下的sublime-text.desktop可以修改，也可不修改
+  sudo vim /opt/sublime_text/sublime-text.desktop
 
 完整的sublime-text.desktop
 [Desktop Entry]
-Version=1.0
 Type=Application
-Name=Sublime Text
+Name=Sublime Text3
 GenericName=Text Editor
-Comment=Sophisticated text editor for code, markup and prose
-Exec=/usr/bin/subl %F
+Comment=SUblime Text3
+#桌面快捷方式执行的命名
+Exec=bash -c "LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so exec /opt/sublime_text/sublime_text %F"
 Terminal=false
 MimeType=text/plain;
-Icon=sublime-text
+Icon=/opt/sublime_text/Icon/48x48/sublime-text.png
 Categories=TextEditor;Development;
 StartupNotify=true
-Actions=Window;Document;
 
 [Desktop Action Window]
 Name=New Window
@@ -141,4 +90,6 @@ OnlyShowIn=Unity;
 Name=New File
 Exec=/usr/bin/subl --command new_file
 OnlyShowIn=Unity;
+
+进入/usr/share/applications/后，双击sublime-text.desktop就可以打开sublime,支持中文输入
 ```
