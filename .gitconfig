@@ -1,0 +1,33 @@
+[user]
+     name  = daheige
+     email = zhuwei313@hotmail.com
+[core]
+    fileMode = false
+    autocrlf = false
+    safecrlf = true
+    crlf     = false
+[push]
+    default = simple
+[branch]
+    autosetuprebase = always
+[alias]
+    co = checkout
+    cm = commit -m
+    st = status
+    pl = pull
+    ps = push
+    lgst=log --pretty=format:'%H [%an] %ci%ncommit:%s' --stat
+    lt =log --stat
+    cp = cherry-pick
+    cam = commit -am
+    br = branch
+    df = diff
+    fe = fetch -p
+    lg=log --graph --pretty=format:'%h %ci [%Cgreen%an%Creset]%s'
+    lgf=log --graph --pretty=format:'%h %ci [%Cgreen%an%Creset]%s' -p
+    re=reset
+    sta=stash
+    gcpr=gc --prune=now
+    clf=clean -f
+    del=branch -D
+    slog=show
