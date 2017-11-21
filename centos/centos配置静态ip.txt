@@ -1,91 +1,91 @@
-²½Öè1¡¢ÅäÖÃ/etc/sysconfig/network-scripts/ifcfg-eth0 ÀïµÄÎÄ¼ş¡£
+æ­¥éª¤1ã€é…ç½®/etc/sysconfig/network-scripts/ifcfg-eth0 é‡Œçš„æ–‡ä»¶ã€‚
 [root@localhost ~]# vim /etc/sysconfig/network-scripts/ifcfg-eth0
 DEVICE="eth0"
-HWADDR="00:0C:29:FD:FF:2A"
-NM_CONTROLLED="yes"
-ONBOOT="yes"
+NM_CONTROLLED=no
+ONBOOT=yes
 IPADDR=192.168.1.31
 NETMASK=255.255.255.0
 GATEWAY=192.168.1.1
 BOOTPROTO=static
 
-1¡¢ÉèÖÃ¾²Ì¬IPºÍDNS 
-Shell´úÂë  
+1ã€è®¾ç½®é™æ€IPå’ŒDNS 
+Shellä»£ç   
 vi /etc/sysconfig/network-scripts/ifcfg-eth0  
 DEVICE="eth0"  
-BOOTPROTO="static"    
+BOOTPROTO=static
 IPV6INIT="yes"  
-NM_CONTROLLED="yes"  
-ONBOOT="yes"  
+NM_CONTROLLED=yes
+ONBOOT=yes  
 TYPE="Ethernet"    
 IPADDR=192.168.1.88  
 NETMAST=255.255.255.0  
-DNS1=61.139.2.69  
-2¡¢Íø¹ØÉèÖÃ 
-Shell´úÂë  
-ÔÚÎÄ¼ş vi /etc/sysconfig/network×îºóÒ»ĞĞ¼ÓÈë£º  
-  
+DNS1=114.114.114.114  
+2ã€ç½‘å…³è®¾ç½® 
+Shellä»£ç   
+åœ¨æ–‡ä»¶ vi /etc/sysconfig/networkæœ€åä¸€è¡ŒåŠ å…¥ï¼š  
+DNS1=114.114.114.114
+DNS2=223.5.5.5
 GATEWAY=192.168.1.1  
-ÖØÆô£ºservice network restart 
+é‡å¯ï¼šservice network restart 
 
 
 
-Ç°ÃæÈıĞĞÊÇÏµÍ³íı´øµÄ£¬ºóÃæ¾ÍÊÇÊÖ¶¯Ìí¼ÓµÄ¡£
-ÕâÑùÉèÖÃ¿Û£¬¼ÇµÃÖØÆôÍø¿¨£º
+å‰é¢ä¸‰è¡Œæ˜¯ç³»ç»Ÿçšå¸¦çš„ï¼Œåé¢å°±æ˜¯æ‰‹åŠ¨æ·»åŠ çš„ã€‚
+è¿™æ ·è®¾ç½®æ‰£ï¼Œè®°å¾—é‡å¯ç½‘å¡ï¼š
 [root@localhost ~]# /etc/init.d/network stop
 [root@localhost ~]# /etc/init.d/network start
 
-ĞĞÁË£¬ÏÖÔÚ¾Í¿ÉÒÔPINGµÃÍ¨Íø¹ØÁË£¬Èç¹û»¹µÃÉÏÍø£¬²»±ØĞëÉèÖÃDNS¡£ÉèÖÃDNS¾ÍÏê¼û²½Öè2
+è¡Œäº†ï¼Œç°åœ¨å°±å¯ä»¥PINGå¾—é€šç½‘å…³äº†ï¼Œå¦‚æœè¿˜å¾—ä¸Šç½‘ï¼Œä¸å¿…é¡»è®¾ç½®DNSã€‚è®¾ç½®DNSå°±è¯¦è§æ­¥éª¤2
 
-²½Öè2¡¢ĞŞ¸Ädns
+æ­¥éª¤2ã€ä¿®æ”¹dns
 [root@localhost ~]# vi /etc/resolv.conf 
-ÔÚÀïÃæÌí¼Ó¶ş¸ödns£º(Ò»°ãÀ´ËµÊÇÍø¹ØµØÖ·£©
+åœ¨é‡Œé¢æ·»åŠ äºŒä¸ªdnsï¼š(ä¸€èˆ¬æ¥è¯´æ˜¯ç½‘å…³åœ°å€ï¼‰
 nameserver 202.96.134.133
 nameserver 8.8.8.8
 
-ok£¬´ó¹¥¸æ³É£¬¼´¿ÉÉÏÍøÁË£¡£¡£¡£¡
+okï¼Œå¤§æ”»å‘Šæˆï¼Œå³å¯ä¸Šç½‘äº†ï¼ï¼ï¼ï¼
 
-ÒÔÏÂÊÇ²Î¿¼£¬Èç¹û°´ÉÏÃæ²½Öè²»ĞĞ£¬¿ÉÒÔÏêÏ¸¿´ÒÔÏÂÄÚÈİ£º
-ÍøÂç½Ó¿ÚÅäÖÃÎÄ¼ş
+ä»¥ä¸‹æ˜¯å‚è€ƒï¼Œå¦‚æœæŒ‰ä¸Šé¢æ­¥éª¤ä¸è¡Œï¼Œå¯ä»¥è¯¦ç»†çœ‹ä»¥ä¸‹å†…å®¹ï¼š
+ç½‘ç»œæ¥å£é…ç½®æ–‡ä»¶
 [root@localhost ~]# cat /etc/sysconfig/network-scripts/ifcfg-eth0
 # Intel Corporation 82545EM Gigabit Ethernet Controller (Copper)
-TYPE=Ethernet       #Íø¿¨ÀàĞÍ
-DEVICE=eth0         #Íø¿¨½Ó¿ÚÃû³Æ
-ONBOOT=yes          #ÏµÍ³Æô¶¯Ê±ÊÇ·ñ×Ô¶¯¼ÓÔØ
-BOOTPROTO=static    #ÆôÓÃµØÖ·Ğ­Òé --static:¾²Ì¬Ğ­Òé --bootpĞ­Òé --dhcpĞ­Òé
-IPADDR=192.168.1.11      #Íø¿¨IPµØÖ·
-NETMASK=255.255.255.0    #Íø¿¨ÍøÂçµØÖ·
-GATEWAY=192.168.1.1      #Íø¿¨Íø¹ØµØÖ·
-DNS1=10.203.104.41       #Íø¿¨DNSµØÖ·
-HWADDR=00:0C:29:13:5D:74 #Íø¿¨Éè±¸MACµØÖ·
-BROADCAST=192.168.1.255  #Íø¿¨¹ã²¥µØÖ· 
-ÖØĞÂµ¼Èëifcfg-eth0ÍøÂçÅäÖÃÎÄ¼ş
+TYPE=Ethernet       #ç½‘å¡ç±»å‹
+DEVICE=eth0         #ç½‘å¡æ¥å£åç§°
+ONBOOT=yes          #ç³»ç»Ÿå¯åŠ¨æ—¶æ˜¯å¦è‡ªåŠ¨åŠ è½½
+BOOTPROTO=static    #å¯ç”¨åœ°å€åè®® --static:é™æ€åè®® --bootpåè®® --dhcpåè®®
+IPADDR=192.168.1.11      #ç½‘å¡IPåœ°å€
+NETMASK=255.255.255.0    #ç½‘å¡ç½‘ç»œåœ°å€
+GATEWAY=192.168.1.1      #ç½‘å¡ç½‘å…³åœ°å€
+DNS1=10.203.104.41       #ç½‘å¡DNSåœ°å€
+HWADDR=00:0C:29:13:5D:74 #ç½‘å¡è®¾å¤‡MACåœ°å€
+BROADCAST=192.168.1.255  #ç½‘å¡å¹¿æ’­åœ°å€ 
+é‡æ–°å¯¼å…¥ifcfg-eth0ç½‘ç»œé…ç½®æ–‡ä»¶
 [root@localhost ~]# /etc/init.d/network reload
 Shutting down interface eth0:                             [ OK ]
 Shutting down loopback interface:                         [ OK ]
 Bringing up loopback interface:                           [ OK ]
 Bringing up interface eth0:                               [ OK ]
-Íø¿¨½Ó¿Ú¹Ø±ÕÓë¼¤»î
-[root@localhost ~]# ifdown eth0   #¹Ø±ÕÍøÂç
-[root@localhost ~]# ifup eth0     #Æô¶¯ÍøÂç
-ÍøÂç·şÎñÆô¶¯Óë¹Ø±Õ
-·½·¨Ò»:
-[root@localhost ~]# service network stop    #¹Ø±ÕÍøÂç·şÎñ
-[root@localhost ~]# service network start   #Æô¶¯ÍøÂç·şÎñ
-[root@localhost ~]# service network restart #ÖØÆôÍøÂç·şÎñ
-·½·¨¶ş£º
+ç½‘å¡æ¥å£å…³é—­ä¸æ¿€æ´»
+[root@localhost ~]# ifdown eth0   #å…³é—­ç½‘ç»œ
+[root@localhost ~]# ifup eth0     #å¯åŠ¨ç½‘ç»œ
+ç½‘ç»œæœåŠ¡å¯åŠ¨ä¸å…³é—­
+æ–¹æ³•ä¸€:
+[root@localhost ~]# service network stop    #å…³é—­ç½‘ç»œæœåŠ¡
+[root@localhost ~]# service network start   #å¯åŠ¨ç½‘ç»œæœåŠ¡
+[root@localhost ~]# service network restart #é‡å¯ç½‘ç»œæœåŠ¡
+æ–¹æ³•äºŒï¼š
 [root@localhost ~]# /etc/init.d/network stop
 [root@localhost ~]# /etc/init.d/network start
 [root@localhost ~]# /etc/init.d/network restart 
-Íø¿¨×´Ì¬²éÑ¯
+ç½‘å¡çŠ¶æ€æŸ¥è¯¢
 [root@localhost ~]# service network status
 Configured devices:
 lo eth0
 Currently active devices:
 lo eth0
-ÁÙÊ±ÅäÖÃÍø¿¨ĞÅÏ¢£¬ÎŞĞèÖØÆô¡£
+ä¸´æ—¶é…ç½®ç½‘å¡ä¿¡æ¯ï¼Œæ— éœ€é‡å¯ã€‚
 [root@localhost ~]# ifconfig eth0 10.1.1.10 netmask 255.0.0.0
-²é¿´Íø¿¨½Ó¿ÚĞÅÏ¢£¬Ä¬ÈÏÁĞ³öËùÓĞ½Ó¿Ú
+æŸ¥çœ‹ç½‘å¡æ¥å£ä¿¡æ¯ï¼Œé»˜è®¤åˆ—å‡ºæ‰€æœ‰æ¥å£
 [root@localhost ~]# ifconfig
 eth0      Link encap:Ethernet  HWaddr 00:0C:29:13:5D:74
           inet addr:192.168.1.11  Bcast:192.168.1.255  Mask:255.255.255.0
@@ -104,10 +104,10 @@ lo        Link encap:Local Loopback
           TX packets:407 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:0
           RX bytes:70759 (69.1 KiB)  TX bytes:70759 (69.1 KiB)
-²é¿´µ±Ç°Â·ÓÉ¼°Íø¹ØĞÅÏ¢
+æŸ¥çœ‹å½“å‰è·¯ç”±åŠç½‘å…³ä¿¡æ¯
 [root@localhost ~]# netstat -r
 Kernel IP routing table
 Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
 192.168.1.0     *               255.255.255.0   U         0 0          0 eth0
 169.254.0.0     *               255.255.0.0     U         0 0          0 eth0
-default         192.168.1.1     0.0.0.0         UG        0 0          0 eth0DNS£ºÖ÷»úÃû£ºCentOSÖ÷DNS£º202.106.46.151µÚ¶şDNS:202.106.0.20µÚÈıDNS:8.8.8.8ÍøÂçÅäÖÃ£ºeth0¾²Ì¬ip£º192.168.1.106×ÓÍøÑÚÂë        255.255.255.0Ä¬ÈÏÍø¹Ø IP     192.168.1.1DEVICE=eth0IPADDR=192.168.1.106NETMASK=255.255.255.0BROADCAST=192.168.1.255ONBOOT=yesBOOTPROTO=noneGATEWAY=192.168.1.1TYPE=Ethernet"/etc/sysconfig/network-scripts/ifcfg-eth0" 11L, 187C
+default         192.168.1.1     0.0.0.0         UG        0 0          0 eth0DNSï¼šä¸»æœºåï¼šCentOSä¸»DNSï¼š202.106.46.151ç¬¬äºŒDNS:202.106.0.20ç¬¬ä¸‰DNS:8.8.8.8ç½‘ç»œé…ç½®ï¼šeth0é™æ€ipï¼š192.168.1.106å­ç½‘æ©ç         255.255.255.0é»˜è®¤ç½‘å…³ IP     192.168.1.1DEVICE=eth0IPADDR=192.168.1.106NETMASK=255.255.255.0BROADCAST=192.168.1.255ONBOOT=yesBOOTPROTO=noneGATEWAY=192.168.1.1TYPE=Ethernet"/etc/sysconfig/network-scripts/ifcfg-eth0" 11L, 187C
