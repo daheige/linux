@@ -5,7 +5,7 @@ cd /usr/local/src/
 wget http://mirror.bit.edu.cn/apache//zookeeper/zookeeper-3.4.11/zookeeper-3.4.11.tar.gz
 tar -xf zookeeper-3.4.11.tar.gz
 cd zookeeper-3.4.11/src/c
-./configure –prefix=/usr/local/libzookeeper
+./configure --prefix=/usr/local/libzookeeper
 make && make install
 
 二、安装php zookeeper扩展
