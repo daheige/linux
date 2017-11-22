@@ -1,53 +1,68 @@
-¿ìËÙ±àÒëphp7.1.0
-µÚÒ»²½£º °²×°±ØÒªÒ»Ğ©ÒÀÀµ 
+```
+å¿«é€Ÿç¼–è¯‘php7.1.0
+ç¬¬ä¸€æ­¥ï¼š å®‰è£…å¿…è¦ä¸€äº›ä¾èµ– 
 yum install php-mcrypt libmcrypt libmcrypt-devel libxml2-devel openssl-devel libcurl-devel libjpeg.x86_64 libpng.x86_64 freetype.x86_64 libjpeg-devel.x86_64 libpng-devel.x86_64 freetype-devel.x86_64 libjpeg-turbo-devel libmcrypt-devel mysql-devel -y
 
-µÚ¶ş²½£º ÏÂÔØphp7Ô´Âë°ü (¹ÙÍøhttp://php.net/get/php-7.1.0.tar.gz/from/a/mirror)
+ç¬¬äºŒæ­¥ï¼š ä¸‹è½½php7æºç åŒ… (å®˜ç½‘http://php.net/get/php-7.1.0.tar.gz/from/a/mirror)
 wget http://cn2.php.net/distributions/php-7.1.0.tar.gz 
 cd php-7.1.0 
-µÚÈı²½£º ±àÒë°²×° 
-./configure ¨Cprefix=/usr/local/php7 ¨Cwith-config-file-path=/usr/local/php7/etc ¨Cwith-mcrypt=/usr/include ¨Cenable-mysqlnd ¨Cwith-gd ¨Cwith-iconv ¨Cwith-zlib ¨Cenable-bcmath ¨Cenable-shmop ¨Cenable-sysvsem ¨Cenable-inline-optimization ¨Cenable-mbregex ¨Cenable-fpm ¨Cenable-mbstring ¨Cenable-ftp ¨Cenable-gd-native-ttf ¨Cwith-openssl ¨Cenable-pcntl ¨Cenable-sockets ¨Cwith-xmlrpc ¨Cenable-zip ¨Cenable-soap ¨Cwith-gettext ¨Cwith-curl ¨Cwith-jpeg-dir ¨Cwith-freetype-dir ¨Cwith-mysqli ¨Cenable-embedded-mysqli ¨Cwith-pdo-mysql
+ç¬¬ä¸‰æ­¥ï¼š ç¼–è¯‘å®‰è£… 
+./configure â€“prefix=/usr/local/php7 â€“with-config-file-path=/usr/local/php7/etc â€“with-mcrypt=/usr/include â€“enable-mysqlnd â€“with-gd â€“with-iconv â€“with-zlib â€“enable-bcmath â€“enable-shmop â€“enable-sysvsem â€“enable-inline-optimization â€“enable-mbregex â€“enable-fpm â€“enable-mbstring â€“enable-ftp â€“enable-gd-native-ttf â€“with-openssl â€“enable-pcntl â€“enable-sockets â€“with-xmlrpc â€“enable-zip â€“enable-soap â€“with-gettext â€“with-curl â€“with-jpeg-dir â€“with-freetype-dir â€“with-mysqli â€“enable-embedded-mysqli â€“with-pdo-mysql
 
+###å¦ä¸€ç§æ–¹å¼çš„é…ç½®######
+./configure --prefix=/usr/local/php7 \
+ --enable-fpm --with-fpm-user=nobody --with-fpm-group=nobody \
+ --with-libxml-dir --with-openssl --with-pcre-regex --with-pcre-jit --with-zlib \
+ --with-curl --with-pcre-dir --with-gd --with-mcrypt \
+ --with-gettext --with-mhash --with-jpeg-dir --with-mysqli --with-pdo-mysql \
+ --with-tidy --with-iconv-dir --with-pear --with-freetype-dir \
+ --enable-bcmath --enable-calendar --enable-exif --enable-zip \
+ --enable-ftp --enable-gd-jis-conv --enable-gd-native-ttf \
+ --enable-mbstring --enable-pcntl --enable-shmop --enable-soap --enable-sockets \
+ --enable-sysvshm --enable-sysvsem --enable-sysvmsg
+
+###ç¼–è¯‘#####
 make 
 make install
 
-µÚËÄ²½£º ÅäÖÃphp
+ç¬¬å››æ­¥ï¼š é…ç½®php
 
 cp php.ini-production /usr/local/php7/etc/php.ini
 
-´´½¨php7-fpmÆô¶¯ÎÄ¼ş
+åˆ›å»ºphp7-fpmå¯åŠ¨æ–‡ä»¶
 cp sapi/fpm/init.d.php-fpm /etc/init.d/php7-fpm
 
-¸³ÓèÖ´ĞĞÈ¨ÏŞ
+èµ‹äºˆæ‰§è¡Œæƒé™
 chmod +x /etc/init.d/php7-fpm
 
-ÉèÖÃphp-fpm.conf 
+è®¾ç½®php-fpm.conf 
 cp /usr/local/php7/etc/php-fpm.conf.default /usr/local/php7/etc/php-fpm.conf
 
-±à¼­/usr/local/php7/etc/php-fpm.confµÄÓÃ»§ºÍÓÃ»§×énginx
+ç¼–è¾‘/usr/local/php7/etc/php-fpm.confçš„ç”¨æˆ·å’Œç”¨æˆ·ç»„nginx
 
 cp /usr/local/php7/etc/php-fpm.d/www.conf.default /usr/local/php7/etc/php-fpm.d/www.conf
 
 vim /usr/local/php7/etc/php.ini
 
-¼ÓÈë
+åŠ å…¥
 zend_extension=/usr/local/php7/lib/php/extensions/no-debug-non-zts-20151012/opcache.so
-²»Í¬µÄphp7Ïà¹ØµÄÄ¿Â¼²»Í¬£¬¿ÉÒÔ/usr/local/php7/lib/php/extensions/no-debug °´ÏÂtab¼ü²¹È«µÃµ½
+ä¸åŒçš„php7ç›¸å…³çš„ç›®å½•ä¸åŒï¼Œå¯ä»¥/usr/local/php7/lib/php/extensions/no-debug æŒ‰ä¸‹tabé”®è¡¥å…¨å¾—åˆ°
 
-Æô¶¯
+å¯åŠ¨
 
 /etc/init.d/php7-fpm start
 
-²é¿´PHP°æ±¾
+æŸ¥çœ‹PHPç‰ˆæœ¬
 
 /usr/local/php7/bin/php -v
 
-ÎªÁË°²È«×îºÃÊÇÈ¥µôÍ·ĞÅÏ¢ X-Powered-By: PHP/7..
+ä¸ºäº†å®‰å…¨æœ€å¥½æ˜¯å»æ‰å¤´ä¿¡æ¯ X-Powered-By: PHP/7..
 
-ÔòĞŞ¸Ä php.ini ÎÄ¼ş ÉèÖÃ expose_php = Off
+åˆ™ä¿®æ”¹ php.ini æ–‡ä»¶ è®¾ç½® expose_php = Off
 
 vim /usr/local/php7/etc/php.ini
 
-ÕÒµ½ expose_php = On
+æ‰¾åˆ° expose_php = On
 
-¸ÄÎª expose_php = Off
+æ”¹ä¸º expose_php = Off
+```
