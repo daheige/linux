@@ -1,3 +1,4 @@
+```
 smb服务器搭建和配置
 1、安装服务器
 [root@localhost ~]# yum -y install samba
@@ -53,11 +54,14 @@ iptables：应用防火墙规则：                                 [确定]
 
 输入我们设置好的heige用户就可以连接，实现共享。
 
-
-
-
-
-
+centos7配置smb
+[share]
+        comment= web
+        path=/web
+        public=yes
+        writeable=yes
+        guest ok=yes
+        browseable=yes
 
 拓展配置：
 配置smb的操作：
@@ -127,10 +131,4 @@ http://linux.chinaitlab.com/server/782125.html
 1. session setup failed: NT_STATUS_LOGON_FAILURE
 原因: root账户没有添加到samba用户中
 解决方法: smbpasswd -a root
-
-
-
-
-
-
-
+```
