@@ -99,12 +99,28 @@ class Log
         $arr[] = 'errfile: ' . $errfile;
         $arr[] = 'errline: ' . $errline;
         $arr[] = 'errMessage: ' . $errstr;
-        self::info(implode(' ', $arr));
+        self::info(implode(PHP_EOL, $arr), 'common_error');
     }
+
+    //获取 fatal error register_shutdown_function("Log::fatalHandler");
+    public static function fatalHandler()
+    {
+        $error   = error_get_last();
+        $errType = E_ERROR | E_USER_ERROR | E_CORE_ERROR | E_COMPILE_ERROR | E_RECOVERABLE_ERROR | E_PARSE;
+        if ($error && ($error["type"] === ($error["type"] & $errType))) {
+            $arr[] = 'errno: ' . $error["type"];
+            $arr[] = 'errfile: ' . $error["file"];
+            $arr[] = 'errline: ' . $error["line"];
+            $arr[] = 'errMessage: ' . $error["message"];
+            self::info(implode(PHP_EOL, $arr), 'fatal_error');
+        }
+    }
+    
 }
 
 //请根据需要改变
 define('LOG_PATH', __DIR__ . '/log');
+register_shutdown_function("Log::fatalHandler");
 set_error_handler("Log::errorHandler", E_ALL | E_STRICT);
 Log::info($arr, 'test');
 ```
