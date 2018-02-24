@@ -74,7 +74,7 @@ class RedisHandler
         $value  = json_encode($value, JSON_UNESCAPED_UNICODE);
         $retRes = $this->redis->set($key, $value);
         if ($timeOut > 0) {
-            $this->redis->setTimeout($key, $timeOut);
+            $this->redis->EXPIRE($key, $timeOut); //过期时间设置
         }
         return $retRes;
     }
