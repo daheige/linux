@@ -36,7 +36,8 @@ Markdown Preview
 PhalconPHP Completions
 Python Completions
 HTML5
-
+#推荐安装主题
+	Monokai+.sublime-theme
 #sublime settings
 {
 	"auto_complete": true,
