@@ -41,7 +41,6 @@ HTML5
 {
 	"auto_complete": true,
 	"auto_match_enabled": true,
-	"color_scheme": "Packages/Color Scheme - Default/Monokai.tmTheme",
 	"default_encoding": "UTF-8",
 	"default_line_ending": "unix",
 	"draw_minimap_border": true,
@@ -63,7 +62,6 @@ HTML5
 		120
 	],
 	"tab_size": 4,
-	"theme": "Monokai+.sublime-theme",
 	"translate_tabs_to_spaces": true,
 	"trim_automatic_white_space": true,
 	"trim_trailing_white_space_on_save": true,
