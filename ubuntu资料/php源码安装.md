@@ -27,13 +27,13 @@ sudo mkdir /usr/local/php7
 sudo useradd www-data                              //新建www-data用户
 
 配置1：
-sudo ./configure --prefix=/usr/local/php --with-config-file-path=/usr/local/php/etc --enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --with-mysqli --with-pdo-mysql --with-iconv-dir --with-freetype-dir --with-jpeg-dir --with-png-dir --with-zlib --with-libxml-dir=/usr --enable-xml --disable-rpath --enable-bcmath --enable-shmop --enable-sysvmsg --enable-sysvsem --enable-sysvshm --enable-inline-optimization --with-curl --enable-mbregex --enable-mbstring --with-mcrypt --enable-ftp --with-gd --enable-gd-native-ttf --with-openssl --with-mhash --enable-pcntl --enable-sockets --with-xmlrpc --enable-zip --enable-soap --with-pear --with-gettext --disable-fileinfo --enable-maintainer-zts --enable-json
+sudo ./configure --prefix=/usr/local/php --with-config-file-path=/usr/local/php/etc --enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --with-mysqli --with-pdo-mysql --with-iconv-dir --with-freetype-dir --with-jpeg-dir --with-png-dir --with-zlib --with-libxml-dir=/usr --enable-xml --disable-rpath --enable-bcmath --enable-shmop --enable-sysvmsg --enable-sysvsem --enable-sysvshm --enable-inline-optimization --with-curl --enable-mbregex --enable-mbstring --enable-ftp --with-gd --with-openssl --with-mhash --enable-pcntl --enable-sockets --with-xmlrpc --enable-zip --enable-soap --with-pear --with-gettext --disable-fileinfo --enable-maintainer-zts --enable-json
 
 另一种方式：
 ./configure --prefix=/usr/local/php7 \
  --enable-fpm --with-fpm-user=nobody --with-fpm-group=nobody \
  --with-libxml-dir --with-openssl --with-pcre-regex --with-pcre-jit --with-zlib \
- --with-curl --with-pcre-dir --with-gd --with-mcrypt \
+ --with-curl --with-pcre-dir --with-gd \
  --with-gettext --with-mhash --with-jpeg-dir --with-mysqli --with-pdo-mysql \
  --with-tidy --with-iconv-dir --with-pear --with-freetype-dir \
  --enable-bcmath --enable-calendar --enable-exif --enable-zip \
@@ -43,7 +43,7 @@ sudo ./configure --prefix=/usr/local/php --with-config-file-path=/usr/local/php/
 
 
 配置2：针对64位操作系统
-sudo ./configure --prefix=/usr/local/php7 --with-config-file-path=/usr/local/php7/etc --enable-fpm --enable-inline-optimization --disable-debug --disable-rpath --enable-shared --enable-opcache --with-mysqli --with-mysql-sock --enable-pdo --with-pdo-mysql --with-gettext --enable-mbstring --with-iconv --with-mcrypt --with-mhash --with-openssl --enable-bcmath --enable-soap --with-libxml-dir --enable-pcntl --enable-shmop --enable-sysvmsg --enable-sysvsem --enable-sysvshm --enable-sockets --with-curl --with-zlib --enable-zip --with-readline --without-sqlite3 --without-pdo-sqlite --with-pear --with-libdir=/lib/x86_64-linux-gnu --with-gd --with-jpeg-dir=/usr/lib --with-png-dir --enable-gd-native-ttf --enable-xml
+sudo ./configure --prefix=/usr/local/php7 --with-config-file-path=/usr/local/php7/etc --enable-fpm --enable-inline-optimization --disable-debug --disable-rpath --enable-shared --enable-opcache --with-mysqli --with-mysql-sock --enable-pdo --with-pdo-mysql --with-gettext --enable-mbstring --with-iconv --with-mhash --with-openssl --enable-bcmath --enable-soap --with-libxml-dir --enable-pcntl --enable-shmop --enable-sysvmsg --enable-sysvsem --enable-sysvshm --enable-sockets --with-curl --with-zlib --enable-zip --with-readline --without-sqlite3 --without-pdo-sqlite --with-pear --with-libdir=/lib/x86_64-linux-gnu --with-gd --with-jpeg-dir=/usr/lib --with-png-dir --enable-xml
 
 4.预处理通过之后就可以make编译
 sudo make && sudo make install
@@ -57,7 +57,8 @@ sudo cp php.ini-development /usr/local/php7/lib/php.ini
 //php-fpm
 sudo cp /usr/local/php7/etc/php-fpm.conf.default /usr/local/php7/etc/php-fpm.conf
 sudo cp /usr/local/php7/etc/php-fpm.d/www.conf.default /usr/local/php7/etc/php-fpm.d/www.conf
-sudo cp -R ./sapi/fpm/php-fpm /etc/init.d/php-fpm  或cp ./sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm
+sudo cp -R ./sapi/fpm/php-fpm /etc/init.d/php-fpm  
+//或cp ./sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm
 
 需要注意的是php7中www.conf这个配置文件配置phpfpm的端口号等信息，如果你修改默认的9000端口号需在这里改，再改nginx的配置
 
