@@ -13,10 +13,9 @@
     sudo apt-get install openssl
 # 下载最新版本：
     wget http://nginx.org/download/nginx-1.13.12.tar.gz
-#解压：
+# 解压：
     tar -zxvf nginx-1.13.12.tar.gz
-# 进入解压目录：
-cd nginx-1.13.12
+    cd nginx-1.13.12
 # 配置：
     sudo ./configure --prefix=/usr/local/nginx 
 # 编译和安装
