@@ -1,11 +1,10 @@
 ```
 server {
         listen 80;
-        index index.php index.html index.htm;
+        index index.php index.html index.htm default.html;
         root /web/hgtp.com/public;
 
         # Add index.php to the list if you are using PHP
-        index index.html index.htm default.html;
         server_name hgtp.com *.hgtp.com;
 
         location / {
