@@ -15,9 +15,11 @@
     wget http://nginx.org/download/nginx-1.13.12.tar.gz
 # 解压：
     tar -zxvf nginx-1.13.12.tar.gz
-    cd nginx-1.13.12
+    
 # 配置：
-    sudo ./configure --prefix=/usr/local/nginx 
+    cd nginx-1.13.12
+    sudo ./configure --prefix=/usr/local/nginx
+    
 # 编译和安装
 sudo make && sudo make install
 
