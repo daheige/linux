@@ -92,4 +92,24 @@ Exec=/usr/bin/subl --command new_file
 OnlyShowIn=Unity;
 
 进入/usr/share/applications/后，双击sublime-text.desktop就可以打开sublime,支持中文输入
+对于个人的左边栏中需要出现sublime图标,只需要将上面双击后的sublime text3,右击固定到启动器就可以.
+然后cd ~/.local/share/applications
+修改sublime_text.desktop为如下内容:(注意Exec的内容)
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Name=Sublime Text3
+Icon=sublime_text
+Path=/
+Exec=bash -c "LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so exec /opt/sublime_text/sublime_text %F"
+StartupNotify=false
+StartupWMClass=Sublime_text
+OnlyShowIn=Unity;
+X-UnityGenerated=true
+
+这里我是建立了一个软连接sublime_text.desktop -> /opt/sublime_text/sublime-text.desktop
+sudo ln -s /opt/sublime_text/sublime-text.desktop sublime_text.desktop
+
+完成以上步骤之后,sublime text3就可以支持中文输入了.
 ```
