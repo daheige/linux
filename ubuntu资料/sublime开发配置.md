@@ -70,6 +70,39 @@ HTML5
 	"word_wrap": false
 }
 
+# 我的配置settings
+{
+    "auto_complete": true,
+    "auto_match_enabled": true,
+    "color_scheme": "Monokai.sublime-color-scheme",
+    "default_encoding": "UTF-8",
+    "default_line_ending": "unix",
+    "draw_minimap_border": true,
+    "draw_white_space": "all",
+    "ensure_newline_at_eof_on_save": true,
+    "expand_tabs_on_save": true,
+    "font_face": "Ubuntu Mono",
+    "font_size": 12,
+    "highlight_line": true,
+    "ignored_packages":
+    [
+        "Vintage"
+    ],
+    "line_padding_bottom": 1,
+    "rulers":
+    [
+        80,
+        100,
+        120
+    ],
+    "tab_size": 4,
+    "translate_tabs_to_spaces": true,
+    "trim_automatic_white_space": true,
+    "trim_trailing_white_space_on_save": true,
+    "update_check": false,
+    "word_wrap": false
+}
+
 #jsformat
 {
     // exposed jsbeautifier options
@@ -127,5 +160,54 @@ HTML5
   "terminal": "gnome-terminal",
   // Unset LD_PRELOAD which may cause problems for sublime with imfix
   "env": {"LD_PRELOAD": null}
+}
+
+#gosublime
+{
+    "env":
+    {
+        "GOPATH": "/mygo",
+        "GOROOT": "/usr/local/go",
+        "GOBIN": "/mygo/bin"
+    },
+    "fmt_tab_indent": true,
+    "fmt_tab_width": 4,
+    "fmt_cmd": ["goimports"],
+    "use_gs_gopath": false,
+    "fmt_enabled": true,
+    "autocomplete_snippets": true,
+    "autocomplete_closures": true
+}
+
+#gotools
+{
+  // The GOPATH used for plugin operations. May be overridden and used as a
+  // substitution value in the gopath project setting. If left blank or
+  // undefined, the default will be the system GOPATH environment variable, or
+  // the GOPATH reported by `go env` if the system GOPATH environment variable
+  // is unset.
+  "gopath": "/mygo",
+
+  // Format source files each time they're saved.
+  "format_on_save": true,
+
+  // A formatting backend (must be either 'gofmt', 'goimports' or 'both').
+  // The 'both' option will first run 'goimports' then 'gofmt'
+  "format_backend": "goimports",
+
+  // A go-to-definition backend (must be either 'oracle' or 'godef').
+  "goto_def_backend": "godef",
+
+  // Enable gocode autocompletion.
+  "autocomplete": true,
+
+  // Enable GoTools debugging output to the Sublime console.
+  "debug_enabled": false,
+
+  // Use tabs for Go source files by default.
+  "translate_tabs_to_spaces": false,
+
+  // Use GoTools for all Go source files.
+  "extensions": ["go"]
 }
 ```
