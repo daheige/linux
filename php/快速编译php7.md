@@ -7,9 +7,6 @@ yum install php-mcrypt libmcrypt libmcrypt-devel libxml2-devel openssl-devel lib
 wget http://cn2.php.net/distributions/php-7.1.0.tar.gz 
 cd php-7.1.0 
 第三步： 编译安装 
-./configure –prefix=/usr/local/php7 –with-config-file-path=/usr/local/php7/etc –with-mcrypt=/usr/include –enable-mysqlnd –with-gd –with-iconv –with-zlib –enable-bcmath –enable-shmop –enable-sysvsem –enable-inline-optimization –enable-mbregex –enable-fpm –enable-mbstring –enable-ftp –enable-gd-native-ttf –with-openssl –enable-pcntl –enable-sockets –with-xmlrpc –enable-zip –enable-soap –with-gettext –with-curl –with-jpeg-dir –with-freetype-dir –with-mysqli –enable-embedded-mysqli –with-pdo-mysql
-
-###另一种方式的配置######
 ./configure --prefix=/usr/local/php7 \
  --enable-fpm --with-fpm-user=nobody --with-fpm-group=nobody \
  --with-libxml-dir --with-openssl --with-pcre-regex --with-pcre-jit --with-zlib \
