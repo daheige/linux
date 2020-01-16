@@ -1,7 +1,7 @@
 ```
 快速编译php7.1.0
 第一步： 安装必要一些依赖 
-yum install php-mcrypt libmcrypt libmcrypt-devel libxml2-devel openssl-devel libcurl-devel libjpeg.x86_64 libpng.x86_64 freetype.x86_64 libjpeg-devel.x86_64 libpng-devel.x86_64 freetype-devel.x86_64 libjpeg-turbo-devel libmcrypt-devel mysql-devel -y
+yum install php-mcrypt libmcrypt libmcrypt-devel libxml2-devel openssl-devel libcurl-devel libjpeg.x86_64 libpng.x86_64 freetype.x86_64 libjpeg-devel.x86_64 libpng-devel.x86_64 freetype-devel.x86_64 libjpeg-turbo-devel libmcrypt-devel mysql-devel libtidy libtidy-devel -y
 
 第二步： 下载php7源码包 (官网http://php.net/get/php-7.1.0.tar.gz/from/a/mirror)
 wget http://cn2.php.net/distributions/php-7.1.0.tar.gz 
